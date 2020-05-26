@@ -33,13 +33,13 @@ int** creeCout(int n){
     return cout;
 }
 
-int getBound(int dernier[],int nonVus[] ,int nbNonVus){
+int getBound(int dernier,int nonVus[] ,int nbNonVus){
     return ((nbNonVus+1) * dmin);
 }
 
 void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
-    int bound = getBound(vus,nonVus,nbNonVus);
-    if(bound>pcc) {
+    int bound = getBound(vus[nbVus-1],nonVus,nbNonVus);
+    if(bound+longueur>pcc) {
         return;
     }
     if(nbNonVus==0) { // if nonVus is empty
