@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 int** cout;
+int pcc = INFINITY;
+
 int nextRand(int iseed){
     // Postcondition : retourne le prochain entier selon une suite pseudo-aleatoire avec la graine iseed
     int i = 16807 * (iseed % 127773) - 2836 * (iseed / 127773);
@@ -43,7 +46,10 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
      */
     if(nbNonVus==0) { // if nonVus is empty
         longueur+=cout[vus[nbVus-1]][vus[0]];
-        printf("%d \n", longueur); 
+        if(longueur<pcc) {
+            pcc = longueur;
+        }
+       // printf("%d \n", longueur); 
     }
     else {
         int j;
@@ -70,12 +76,7 @@ int main(){
     for (int i=0; i<nbSommets-1; i++) nonVus[i] = i+1;
     vus[0] = 0;
     permut(vus,1,nonVus,nbSommets-1,0);
-    int cost01 = cout[0][1];
-    int cost02 = cout[1][2];
-    int cost03 = cout[2][3];
-    int cost04 = cout[3][0];
-    int total = cost01 + cost02 + cost03 + cost04;
-    printf("0,1,2,3,0 path longueur: %d ", total);
+    printf("pcc pour %d: %d ", nbSommets, pcc);
     
 }
 
