@@ -2,14 +2,28 @@
 #include <stdlib.h>
 
 void permut(int vus[], int nbVus, int nonVus[], int nbNonVus){
-    /*
-    Entree :
-     - vus[0..nbVus-1] = sommets visites
-     - nonVus[0..nbNonVus-1] = sommets non visites
-    Precondition : nbVus > 0 et vus[0] = 0 (le tour commence toujours par le sommet 0)
-    Postcondition : affiche tous les tours commencant par vus[0..nbVus-1] et se terminant par les sommets de nonVus[0..nbNonVus-1] (dans tous les ordres possibles)
-     */
-    // ECRIVEZ VOTRE CODE ICI :-)
+    if(nbNonVus==0) { // if nonVus is empty
+        int i;
+        for(i = 0; i < nbVus; i++)
+        {
+            printf("%d ", vus[i]); 
+        }
+        printf("\n ");  
+    }
+    else {
+        int j;
+        for(j=0; j < nbNonVus; j++) {
+            if(nonVus[j]!=-1) {
+                vus[nbVus] = nonVus[j];
+                nonVus[j] = -1;
+                nbNonVus--;
+                permut(vus, nbVus+1, nonVus, nbNonVus);
+                nonVus[j] = vus[nbVus];
+                nbNonVus++;
+                vus[nbVus] = 0;
+            }
+        }
+    }
 }
 
 int main(){
