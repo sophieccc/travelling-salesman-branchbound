@@ -41,7 +41,23 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
      - longueur = somme des couts des arcs du chemin <vus[0], vus[1], ..., vus[nbVus-1]>
      Postcondition : affiche les longueurs de tous les circuits commençant par vus[0..nbVus-1] et se terminant par les sommets de nonVus[0..nbNonVus-1] (dans tous les ordres possibles), suivis de 0
      */
-    // ECRIVEZ VOTRE CODE ICI :-)
+    if(nbNonVus==0) { // if nonVus is empty
+        printf("%d \n", longueur); 
+    }
+    else {
+        int j;
+        for(j=0; j < nbNonVus; j++) {
+            vus[nbVus] = nonVus[j];
+            int temp = nonVus[nbNonVus-1];
+            nonVus[j] = temp;
+            longueur+=cout[vus[nbVus-1]][vus[nbVus]];
+            permut(vus, nbVus+1, nonVus, nbNonVus-1, longueur);
+            longueur-=cout[vus[nbVus-1]][vus[nbVus]];
+            nonVus[j] = vus[nbVus];
+            nonVus[nbNonVus-1] = temp;
+            vus[nbVus] = 0;
+        }
+    }
 }
 
 int main(){
