@@ -12,14 +12,14 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus){
     }
     else {
         int j;
-        for(j=0; j <= nbNonVus; j++) {
-            if(nonVus[j]!=-1) {
-                vus[nbVus] = nonVus[j];
-                nonVus[j] = -1;
-                permut(vus, nbVus+1, nonVus, nbNonVus-1);
-                nonVus[j] = vus[nbVus];
-                vus[nbVus] = 0;
-            }
+        for(j=0; j < nbNonVus; j++) {
+            vus[nbVus] = nonVus[j];
+            int temp = nonVus[nbNonVus-1];
+            nonVus[j] = temp;
+            permut(vus, nbVus+1, nonVus, nbNonVus-1);
+            nonVus[j] = vus[nbVus];
+            nonVus[nbNonVus-1] = temp;
+            vus[nbVus] = 0;
         }
     }
 }
