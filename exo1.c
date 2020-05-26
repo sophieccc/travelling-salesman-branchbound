@@ -16,10 +16,9 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus){
             if(nonVus[j]!=-1) {
                 vus[nbVus] = nonVus[j];
                 nonVus[j] = -1;
-                nbNonVus--;
-                permut(vus, nbVus+1, nonVus, nbNonVus);
+                permut(vus, nbVus+1, nonVus, nbNonVus-1);
                 nonVus[j] = vus[nbVus];
-                nbNonVus++;
+                //printf("current nonvus j: %d \n" , nonVus[j]);
                 vus[nbVus] = 0;
             }
         }
