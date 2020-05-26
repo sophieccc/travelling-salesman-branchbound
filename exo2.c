@@ -3,6 +3,7 @@
 #include <math.h>
 
 int** cout;
+int dmin;
 int pcc = INFINITY;
 
 int nextRand(int iseed){
@@ -32,18 +33,15 @@ int** creeCout(int n){
     return cout;
 }
 
+int getBound(int dernier[],int nonVus[] ,int nbNonVus){
+    return ((nbNonVus+1) * dmin);
+}
+
 void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
-    /*
-     Variable globale :
-     - pour tout couple de sommets (i,j), cout[i][j] = cout pour aller de i vers j
-     Entree :
-     - nonVus[0..nbNonVus-1] = sommets non visites
-     - vus[0..nbVus-1] = sommets visites
-     Precondition :
-     - nbVus > 0 et Vus[0] = 0 (on commence toujours par le sommet 0)
-     - longueur = somme des couts des arcs du chemin <vus[0], vus[1], ..., vus[nbVus-1]>
-     Postcondition : affiche les longueurs de tous les circuits commençant par vus[0..nbVus-1] et se terminant par les sommets de nonVus[0..nbNonVus-1] (dans tous les ordres possibles), suivis de 0
-     */
+    int bound = getBound(vus,nonVus,nbNonVus);
+    if(bound>pcc) {
+        return;
+    }
     if(nbNonVus==0) { // if nonVus is empty
         longueur+=cout[vus[nbVus-1]][vus[0]];
         if(longueur<pcc) {
@@ -67,6 +65,25 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
     }
 }
 
+int smallest_arc(int n)
+{
+   int min = cout[0][0];
+   int x,y;
+
+   for (x = 0; x < n; x++)
+   {
+       for (y = 0; y < n-1; y++)
+       {
+           if (min > cout[x][y])
+           {
+               min = cout[x][y];
+           }
+       } 
+   }  
+
+   return min;
+}
+
 int main(){
     int nbSommets;
     scanf("%d",&nbSommets);
@@ -75,8 +92,8 @@ int main(){
     int nonVus[nbSommets-1];
     for (int i=0; i<nbSommets-1; i++) nonVus[i] = i+1;
     vus[0] = 0;
+    dmin = smallest_arc(nbSommets);
     permut(vus,1,nonVus,nbSommets-1,0);
     printf("pcc pour %d: %d ", nbSommets, pcc);
-    
 }
 
