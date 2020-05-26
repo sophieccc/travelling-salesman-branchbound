@@ -38,25 +38,26 @@ int getBound(int nbNonVus){
 }
 
 int getBound2(int dernier,int nonVus[] ,int nbNonVus){
-    int total = INFINITY;
+    int total1 = INFINITY;
+    int total2=0;
     for(int i=0; i < nbNonVus; i++) {
         int current = cout[dernier][nonVus[i]];
-        if(current < total) {
-            total = current; 
+        if(current < total1) {
+            total1 = current; 
         }
-    }
-    for(int j=0; j < nbNonVus; j++) {
-        int current = nonVus[j];
-        int shortest = cout[current][0];
-        for(int i=0; i < nbNonVus; i++) {
-            int curr = cout[current][nonVus[i]];
-            if(curr < shortest) {
-                shortest = curr; 
+        int current2 = nonVus[i];
+        int shortest = cout[current2][0];
+        for(int j=0; j < nbNonVus; j++) {
+            if(i!=j) {
+                int curr = cout[current2][nonVus[j]];
+                if(curr < shortest) {
+                    shortest = curr; 
+                }
             }
         }
-        total+= shortest;
+        total2+= shortest;
     }
-    return total;
+    return total1+total2;
 }
 
 void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
