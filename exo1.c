@@ -13,14 +13,13 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus){
     else {
         int j;
         for(j=0; j < nbNonVus; j++) {
-            if(nonVus[j]!=-1) {
+                int tmp = nonVus[nbNonVus-1];
                 vus[nbVus] = nonVus[j];
-                nonVus[j] = -1;
+                nonVus[j] = tmp;
                 permut(vus, nbVus+1, nonVus, nbNonVus-1);
                 nonVus[j] = vus[nbVus];
                 //printf("current nonvus j: %d \n" , nonVus[j]);
                 vus[nbVus] = 0;
-            }
         }
     }
 }
