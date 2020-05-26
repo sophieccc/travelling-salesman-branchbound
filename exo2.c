@@ -42,6 +42,7 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
      Postcondition : affiche les longueurs de tous les circuits commençant par vus[0..nbVus-1] et se terminant par les sommets de nonVus[0..nbNonVus-1] (dans tous les ordres possibles), suivis de 0
      */
     if(nbNonVus==0) { // if nonVus is empty
+        longueur+=cout[vus[nbVus-1]][vus[0]];
         printf("%d \n", longueur); 
     }
     else {
@@ -69,5 +70,12 @@ int main(){
     for (int i=0; i<nbSommets-1; i++) nonVus[i] = i+1;
     vus[0] = 0;
     permut(vus,1,nonVus,nbSommets-1,0);
+    int cost01 = cout[0][1];
+    int cost02 = cout[1][2];
+    int cost03 = cout[2][3];
+    int cost04 = cout[3][0];
+    int total = cost01 + cost02 + cost03 + cost04;
+    printf("0,1,2,3,0 path longueur: %d ", total);
+    
 }
 
