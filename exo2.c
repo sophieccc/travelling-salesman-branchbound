@@ -34,14 +34,76 @@ int** creeCout(int n){
 }
 
 int getBound(int dernier,int nonVus[] ,int nbNonVus){
-    return ((nbNonVus+1) * dmin);
+    int l = INFINITY;
+    for (int i=0; i<nbNonVus; i++)
+    {
+        if(l>cout[dernier][nonVus[i]])
+        {
+            l=cout[dernier][nonVus[i]];
+        }
+    }
+    for (int i=0; i<nbNonVus; i++)
+    {   
+        int li = INFINITY;
+        for (int j=0; j<nbNonVus; j++)
+        {
+            if (i!=j)
+            {
+                if(li>cout[nonVus[i]][nonVus[j]])
+                {
+                    li = cout[nonVus[i]][nonVus[j]];
+                }
+            }           
+        }
+        if(li>cout[nonVus[i]][0])
+        {
+            li=cout[nonVus[i]][0];
+        }
+
+        l+=li;
+
+    }
+    return l;
+}
+
+int getBound2(int dernier,int nonVus[] ,int nbNonVus){
+    int total1 = INFINITY;
+    int total2=0;
+    for(int i=0; i < nbNonVus; i++) {
+        int current = cout[dernier][nonVus[i]];
+        if(current < total1) {
+            total1 = current; 
+        }
+        int current2 = nonVus[i];
+        int shortest = cout[current2][0];
+        for(int j=0; j < nbNonVus; j++) {
+            if(i!=j) {
+                int curr = cout[current2][nonVus[j]];
+                if(curr < shortest) {
+                    shortest = curr; 
+                }
+            }
+        }
+        total2+= shortest;
+    }
+    return total1+total2;
 }
 
 void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
-    int bound = getBound(vus[nbVus-1],nonVus,nbNonVus);
-    if(bound+longueur>pcc) {
-        return;
+    
+    for (int i=0; i<nbNonVus-1; i++)
+    {
+        for (int j=0; j<nbNonVus-i-1; j++)
+        {
+            if (cout[vus[nbVus-1]][nonVus[j]] > cout[vus[nbVus-1]][nonVus[j+1]])
+            {
+                int tmp = nonVus[j];
+                nonVus[j] = nonVus[j+1];
+                nonVus[j+1] = tmp;
+            }
+        }
     }
+
     if(nbNonVus==0) { // if nonVus is empty
         longueur+=cout[vus[nbVus-1]][vus[0]];
         if(longueur<pcc) {
@@ -50,13 +112,22 @@ void permut(int vus[], int nbVus, int nonVus[], int nbNonVus, int longueur){
        // printf("%d \n", longueur); 
     }
     else {
+        int bound = getBound2(vus[nbVus-1],nonVus,nbNonVus);
+        if(bound+longueur>pcc) {
+            return;
+        }
+        int tab[nbNonVus];
+        for (int i=0; i<nbNonVus; i++)
+        {
+            tab[i]=nonVus[i];
+        }
         int j;
         for(j=0; j < nbNonVus; j++) {
             vus[nbVus] = nonVus[j];
             int temp = nonVus[nbNonVus-1];
             nonVus[j] = temp;
             longueur+=cout[vus[nbVus-1]][vus[nbVus]];
-            permut(vus, nbVus+1, nonVus, nbNonVus-1, longueur);
+            permut(vus, nbVus+1, tab, nbNonVus-1, longueur);
             longueur-=cout[vus[nbVus-1]][vus[nbVus]];
             nonVus[j] = vus[nbVus];
             nonVus[nbNonVus-1] = temp;
